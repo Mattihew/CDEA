@@ -1,0 +1,39 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "project": "tsconfig.json",
+    "tsconfigRootDir": ".",
+    "createDefaultProgram": true
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-use-before-define": "warn"
+  }
+}
