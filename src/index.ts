@@ -1,20 +1,12 @@
 import { convertToHtml } from "mammoth";
 import { load } from "cheerio";
 import { readFileSync } from "fs";
+import { createConnection } from "typeorm";
+import Ref from "./entities/Reference";
+import Evidence from "./entities/Evidence";
+import Unit from "./entities/Unit";
 
 const units = [120, 119, 117, 116, 115, 114, 89, 77, 68, 34, 26, 1] as const;
-
-interface Ref {
-  unit: number;
-  type: "P" | "S";
-  value: number;
-  subValue?: number;
-}
-
-interface Evidence {
-  text: string[];
-  refs: Ref[];
-}
 
 function getRefs(input: string): Ref[] {
   const unit = units.find(u => input.indexOf(String(u)) !== -1);
@@ -25,12 +17,14 @@ function getRefs(input: string): Ref[] {
     while (values !== null) {
       values = pointRegex.exec(input);
       if (values) {
-        result.push({
-          unit,
-          type: values[1].toUpperCase() as "P" | "S",
-          value: Number(values[2]),
-          subValue: (values[3] && Number(values[3].substr(1))) || undefined
-        });
+        const newUnit = new Unit();
+        newUnit.id = unit;
+        const newRef = new Ref();
+        newRef.unit = newUnit;
+        newRef.type = values[1].toUpperCase() as "P" | "S";
+        newRef.value = Number(values[2]);
+        newRef.subValue = (values[3] && Number(values[3].substr(1))) || undefined;
+        result.push(newRef);
       }
     }
   }
@@ -45,12 +39,15 @@ async function parse(buffer: Buffer): Promise<Evidence[]> {
   const $ = load(result.value);
   const evidence: Evidence[] = [];
   let newPara = false;
-  let ce: Evidence = { text: [], refs: [] };
+  let ce: Required<Pick<Evidence, "text" | "refs">> = { text: "", refs: [] };
   $("td").each((i, td) => {
     if (ce.refs.length && ce.text.length) {
-      evidence.push(ce);
+      const ev = new Evidence();
+      ev.text = ce.text;
+      ev.refs = ce.refs;
+      evidence.push(ev);
     }
-    ce = { text: [], refs: [] };
+    ce = { text: "", refs: [] };
     $(td)
       .children("p")
       .each((j, p) => {
@@ -62,12 +59,15 @@ async function parse(buffer: Buffer): Promise<Evidence[]> {
         } else {
           if (newPara) {
             if (ce.refs.length && ce.text.length) {
-              evidence.push(ce);
+              const ev = new Evidence();
+              ev.text = ce.text;
+              ev.refs = ce.refs;
+              evidence.push(ev);
             }
-            ce = { text: [], refs: [] };
+            ce = { text: "", refs: [] };
             newPara = false;
           }
-          ce.text = [...ce.text, text];
+          ce.text += "<p>" + text + "</p>";
         }
       });
   });
@@ -75,5 +75,16 @@ async function parse(buffer: Buffer): Promise<Evidence[]> {
 }
 
 parse(readFileSync("./data/task8-NightFlyingReview.docx")).then(debug => {
-  console.log(JSON.stringify(debug, undefined, 2));
+  createConnection({
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: "example",
+    database: "postgres",
+    entities: ["src/entities/*.ts"],
+    synchronize: true
+  }).then(connection => {
+    connection.manager.save(debug);
+  });
 });
