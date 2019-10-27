@@ -23,7 +23,7 @@ function getRefs(input: string): Ref[] {
         newRef.unit = newUnit;
         newRef.type = values[1].toUpperCase() as "P" | "S";
         newRef.value = Number(values[2]);
-        newRef.subValue = (values[3] && Number(values[3].substr(1))) || undefined;
+        newRef.subValue = (values[3] && Number(values[3].substr(1))) || 0;
         result.push(newRef);
       }
     }
@@ -85,6 +85,11 @@ parse(readFileSync("./data/task8-NightFlyingReview.docx")).then(debug => {
     entities: ["src/entities/*.ts"],
     synchronize: true
   }).then(connection => {
-    connection.manager.save(debug);
+    connection
+      .getRepository(Evidence)
+      .find({ select: ["id"] })
+      .then(existingEv => {
+        connection.getRepository(Evidence).save(debug.filter(({ id }) => existingEv.every(e => e.id !== id)));
+      });
   });
 });
