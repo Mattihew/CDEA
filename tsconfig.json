@@ -14,7 +14,7 @@
     "paths": {
       "mammoth": ["src/@types/mammoth.d.ts"]
     },
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "Node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
