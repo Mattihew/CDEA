@@ -12,7 +12,7 @@ const useTitle = (title: string): void => {
 
 type TitleProps = {
   title: string;
-  children: React.ReactNodeArray;
+  children?: React.ReactNodeArray;
 };
 
 const Title = ({ title, children }: TitleProps): React.ReactElement => {

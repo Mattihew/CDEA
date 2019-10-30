@@ -18,7 +18,7 @@ module.exports = {
     }
   ],
   modify(defaultConfig, { target, dev }, webpack) {
-    const config = defaultConfig;
+    const config = { ...defaultConfig };
 
     config.resolve.extensions.push(".ts", ".tsx");
     config.module.rules.push({
@@ -35,7 +35,7 @@ module.exports = {
         }),
         new BundleAnalyzerPlugin({
           analyzerMode: "static",
-          reportFilename: "../report.html",
+          reportFilename: "../../public/report.html",
           openAnalyzer: false
         })
       );
