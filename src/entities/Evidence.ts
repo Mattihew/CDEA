@@ -33,7 +33,11 @@ export default class Evidence {
   @Column()
   text!: string;
 
-  @ManyToMany(type => Ref, ref => ref.evidence, { cascade: false })
+  @ManyToMany(
+    type => Ref,
+    ref => ref.evidence,
+    { cascade: false }
+  )
   @JoinTable()
   refs?: Ref[];
 }

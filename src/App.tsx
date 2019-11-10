@@ -5,7 +5,7 @@ import routes from "./routes";
 import Title from "./components/util/Title";
 
 const App: FunctionComponent = () => (
-  <React.Fragment>
+  <React.StrictMode>
     <CssBaseline />
     <Switch>
       {routes.map(({ title, children, ...route }, i) => (
@@ -15,7 +15,7 @@ const App: FunctionComponent = () => (
         </Route>
       ))}
     </Switch>
-  </React.Fragment>
+  </React.StrictMode>
 );
 
 export default App;

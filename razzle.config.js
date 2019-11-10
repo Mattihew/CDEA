@@ -35,7 +35,7 @@ module.exports = {
         }),
         new BundleAnalyzerPlugin({
           analyzerMode: "static",
-          reportFilename: "../../public/report.html",
+          reportFilename: "../report.html",
           openAnalyzer: false
         })
       );

@@ -2,9 +2,9 @@ import { convertToHtml } from "mammoth";
 import { load } from "cheerio";
 import { readFileSync } from "fs";
 import { createConnection } from "typeorm";
-import Ref from "./entities/Reference";
-import Evidence from "./entities/Evidence";
-import Unit from "./entities/Unit";
+import Ref from "../entities/Reference";
+import Evidence from "../entities/Evidence";
+import Unit from "../entities/Unit";
 
 const units = [120, 119, 117, 116, 115, 114, 89, 77, 68, 34, 26, 1] as const;
 
@@ -23,7 +23,7 @@ function getRefs(input: string): Ref[] {
         newRef.unit = newUnit;
         newRef.type = values[1].toUpperCase() as "P" | "S";
         newRef.value = Number(values[2]);
-        newRef.subValue = (values[3] && Number(values[3].substr(1))) || 0;
+        newRef.subValue = values[3] ? Number(values[3].substr(1)) : 0;
         result.push(newRef);
       }
     }

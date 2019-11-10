@@ -6,6 +6,9 @@ export default class Unit {
   @PrimaryColumn({ unique: true })
   id!: number;
 
-  @OneToMany(type => Ref, ref => ref.unit)
+  @OneToMany(
+    type => Ref,
+    ref => ref.unit
+  )
   refs?: Ref[];
 }

@@ -3,11 +3,13 @@ import { RouteProps } from "react-router";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 
-type RouteInfo = RouteProps & {
-  title?: string;
-};
+type RouteInfo = Readonly<
+  RouteProps & {
+    title?: string;
+  }
+>;
 
-const routes: RouteInfo[] = [
+const routes: Readonly<RouteInfo[]> = [
   {
     title: "CDEA",
     path: "/",
@@ -18,6 +20,6 @@ const routes: RouteInfo[] = [
     title: "404 - Page not found",
     children: <NotFound />
   }
-];
+] as const;
 
 export default routes;

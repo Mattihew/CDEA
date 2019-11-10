@@ -18,7 +18,11 @@ export default class Ref {
     this._id = id;
   }
 
-  @ManyToOne(type => Unit, unit => unit.refs, { cascade: false })
+  @ManyToOne(
+    type => Unit,
+    unit => unit.refs,
+    { cascade: false }
+  )
   unit!: Unit;
 
   @Column({ type: "enum", enum: ["P", "S"] })
@@ -30,6 +34,9 @@ export default class Ref {
   @Column({ nullable: true })
   subValue?: number;
 
-  @ManyToMany(type => Evidence, evidence => evidence.refs)
+  @ManyToMany(
+    type => Evidence,
+    evidence => evidence.refs
+  )
   evidence?: Evidence[];
 }
