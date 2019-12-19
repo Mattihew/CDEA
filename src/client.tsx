@@ -12,7 +12,7 @@ loadableReady(() => {
     document.getElementById("root"),
     () => {
       const jssStyles = document.getElementById("jss-server-side");
-      jssStyles?.parentNode?.removeChild(jssStyles);
+      jssStyles?.parentElement?.removeChild(jssStyles);
     }
   );
 });

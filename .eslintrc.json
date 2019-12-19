@@ -27,15 +27,11 @@
     }
   },
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": [
-      "warn",
-      {
-        "allowExpressions": true
-      }
-    ],
+    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
     "@typescript-eslint/no-non-null-assertion": "off",
     "react/prop-types": "off",
     "@typescript-eslint/no-use-before-define": "warn",
-    "prettier/prettier": "warn"
+    "prettier/prettier": "warn",
+    "react/forbid-elements": ["error", { "forbid": [{ "element": "Box", "message": "use <div> instead" }] }]
   }
 }

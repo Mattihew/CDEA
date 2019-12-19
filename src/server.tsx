@@ -38,7 +38,11 @@ const server = express()
       res.status(context.statusCode);
     }
     if (context.url) {
-      res.redirect(context.url);
+      const url = new URL(context.url, "http://localhost:3000");
+      if (context.url === "/login") {
+        url.searchParams.set("referrer", req.url);
+      }
+      res.redirect(url.toString());
     } else {
       res.write("<!DOCTYPE html>");
       renderToStaticNodeStream(
