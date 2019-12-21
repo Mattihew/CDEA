@@ -1,9 +1,10 @@
-import { convertToHtml } from "mammoth";
-import { load } from "cheerio";
 import { readFileSync } from "fs";
+import { load } from "cheerio";
+import { convertToHtml } from "mammoth";
 import { createConnection } from "typeorm";
-import Ref from "../entities/Reference";
+
 import Evidence from "../entities/Evidence";
+import Ref from "../entities/Reference";
 import Unit from "../entities/Unit";
 
 const units = [120, 119, 117, 116, 115, 114, 89, 77, 68, 34, 26, 1] as const;

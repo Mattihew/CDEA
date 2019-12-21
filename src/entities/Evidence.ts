@@ -1,6 +1,7 @@
-import { PrimaryColumn, Column, Entity, ManyToMany, JoinTable } from "typeorm";
-import Ref from "./Reference";
 import { createHash } from "crypto";
+import { PrimaryColumn, Column, Entity, ManyToMany, JoinTable } from "typeorm";
+
+import Ref from "./Reference";
 
 @Entity()
 export default class Evidence {

@@ -1,11 +1,13 @@
+import { resolve } from "path";
+
 import { ChunkExtractor } from "@loadable/server";
 import { ServerStyleSheets } from "@material-ui/styles";
 import express from "express";
-import { resolve } from "path";
 import React from "react";
 import { renderToStaticNodeStream, renderToString } from "react-dom/server";
 import { StaticRouterContext } from "react-router";
 import { StaticRouter } from "react-router-dom";
+
 import App from "./App";
 import Document from "./Document";
 import { TitleContext } from "./components/util/Title";
