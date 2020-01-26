@@ -3,10 +3,10 @@ import React from "react";
 interface DocumentProps {
   title?: string;
   headElements: React.ReactNodeArray;
-  children: string;
+  children?: string;
 }
 
-const Document = ({ title = "Razzle Site", headElements, children }: DocumentProps): React.ReactElement => (
+const Document = ({ title = "CDEA", headElements, children }: DocumentProps): React.ReactElement => (
   <html>
     <head>
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,7 @@ const Document = ({ title = "Razzle Site", headElements, children }: DocumentPro
       {headElements}
     </head>
     <body>
-      <div id="root" dangerouslySetInnerHTML={{ __html: children }} />
+      <div id="root" dangerouslySetInnerHTML={children ? { __html: children } : undefined} />
     </body>
   </html>
 );

@@ -12,9 +12,22 @@ import App from "./App";
 import Document from "./Document";
 import { TitleContext } from "./components/util/Title";
 
+const statsFile = resolve("./build/loadable-stats.json");
+const extractor = new ChunkExtractor({ statsFile, entrypoints: "shell" });
+const shell =
+  "<!DOCTYPE html>\n" +
+  renderToString(
+    <Document
+      headElements={[...extractor.getLinkElements(), ...extractor.getScriptElements(), ...extractor.getStyleElements()]}
+    />
+  );
+
 const server = express()
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
+  .get("/shell", (req, res) => {
+    res.end(shell);
+  })
   .get("/*", (req, res) => {
     let title: string | undefined;
     const setTitle = (t: string): void => {

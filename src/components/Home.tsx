@@ -1,13 +1,11 @@
-import { Container } from "@material-ui/core";
 import React from "react";
+import Page from "./Page";
 
 const Home = (): React.ReactElement => {
   return (
-    <>
-      <Container>
-        <h1>CDEA!</h1>
-      </Container>
-    </>
+    <Page>
+      <h1>CDEA!</h1>
+    </Page>
   );
 };
 export default Home;

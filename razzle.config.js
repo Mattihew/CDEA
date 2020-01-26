@@ -21,6 +21,13 @@ const config = {
   modify(defaultConfig, { target, dev }) {
     const config = { ...defaultConfig };
 
+    if (target === "web" && typeof config.entry !== "string") {
+      config.entry = {
+        ...config.entry,
+        shell: "./src/shell"
+      };
+    }
+
     config.resolve.extensions.push(".ts", ".tsx");
     config.module.rules.push({
       test: /\.(ts|js)x?$/,

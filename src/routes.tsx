@@ -1,11 +1,12 @@
+import loadable from "@loadable/component";
 import React from "react";
 import { RouteProps } from "react-router";
-
 import Home from "./components/Home";
 import Login from "./components/Login";
-import NotFound from "./components/NotFound";
 import RedirectToLogin from "./components/RedirectToLogin";
 import { UserRoles } from "./utils/userRoles";
+
+const NotFound = loadable(() => import("./components/NotFound"));
 
 interface Group {
   name: string;
