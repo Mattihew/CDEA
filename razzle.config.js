@@ -1,10 +1,11 @@
+//@ts-check
 "use strict";
-/* eslint-disable @typescript-eslint/no-var-requires */
 
 const LoadablePlugin = require("@loadable/webpack-plugin").default;
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
-module.exports = {
+/** @type {import("./src/@types/razzle").RazzleConfig} */
+const config = {
   plugins: [
     {
       name: "typescript",
@@ -17,7 +18,7 @@ module.exports = {
       }
     }
   ],
-  modify(defaultConfig, { target, dev }, webpack) {
+  modify(defaultConfig, { target, dev }) {
     const config = { ...defaultConfig };
 
     config.resolve.extensions.push(".ts", ".tsx");
@@ -46,3 +47,5 @@ module.exports = {
     return config;
   }
 };
+
+module.exports = config;
