@@ -1,19 +1,18 @@
-import { resolve } from "path";
-
-import { ChunkExtractor } from "@loadable/server";
+import { readFileSync } from "fs";
+import { ChunkExtractor, ChunkExtractorOptions } from "@loadable/server";
 import { ServerStyleSheets } from "@material-ui/styles";
 import express from "express";
 import React from "react";
 import { renderToStaticNodeStream, renderToString } from "react-dom/server";
 import { StaticRouterContext } from "react-router";
 import { StaticRouter } from "react-router-dom";
-
 import App from "./App";
 import Document from "./Document";
 import { TitleContext } from "./components/util/Title";
 
-const statsFile = resolve("./build/loadable-stats.json");
-const extractor = new ChunkExtractor({ statsFile, entrypoints: "shell" });
+const stats = JSON.parse(readFileSync("./build/loadable-stats.json", { encoding: "UTF-8" }));
+const chunkOptions: ChunkExtractorOptions = { stats, entrypoints: "client" };
+const extractor = new ChunkExtractor(chunkOptions);
 const shell =
   "<!DOCTYPE html>\n" +
   renderToString(
@@ -33,8 +32,7 @@ const server = express()
     const setTitle = (t: string): void => {
       title = t;
     };
-    const statsFile = resolve("./build/loadable-stats.json");
-    const extractor = new ChunkExtractor({ statsFile, entrypoints: "client" });
+    const extractor = new ChunkExtractor(chunkOptions);
     const sheets = new ServerStyleSheets();
     const context: StaticRouterContext = {};
     const html = renderToString(
@@ -53,11 +51,11 @@ const server = express()
       res.status(context.statusCode);
     }
     if (context.url) {
-      const url = new URL(context.url, "http://localhost:3000");
+      const url = new URL(context.url, "http://localhost");
       if (context.url === "/login") {
         url.searchParams.set("referrer", req.url);
       }
-      res.redirect(url.toString());
+      res.redirect(url.pathname + url.search);
     } else {
       res.write("<!DOCTYPE html>");
       renderToStaticNodeStream(
